@@ -3,6 +3,7 @@ package com.uditeam.UsuariosCRUD.dao;
 
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uditeam.UsuariosCRUD.dto.Usuario;
@@ -11,7 +12,7 @@ import com.uditeam.UsuariosCRUD.dto.Usuario;
  * @author Administrator
  *
  */
-@Transactional
+@RepositoryRestResource
 public interface UsuarioDAO extends CrudRepository<Usuario, Integer> {
 	
 }

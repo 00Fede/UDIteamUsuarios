@@ -41,7 +41,12 @@ public class UsuarioDAOTest {
 
 	@Test
 	public void testFindAll() {
+		try{
 		assertTrue(usuarioDAO.findAll().iterator().next()!=null);
+		}catch(Exception e){
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
