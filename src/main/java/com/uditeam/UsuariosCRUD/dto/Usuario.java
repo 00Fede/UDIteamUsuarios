@@ -5,6 +5,7 @@ package com.uditeam.UsuariosCRUD.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -13,7 +14,27 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
+@Table(name = "tblusuarios")
 public class Usuario {
+	
+	public Usuario(){
+		
+	}
+	
+	
+	public Usuario(int id, String nombre, String apellido, String usuario, String contrasena, String email,
+			String estado) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.usuario = usuario;
+		this.contrasena = contrasena;
+		this.email = email;
+		this.estado = estado;
+	}
+
+
 	/**
 	 * @return the id
 	 */

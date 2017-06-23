@@ -3,7 +3,7 @@
  */
 package com.uditeam.UsuariosCRUD.bl;
 
-import java.awt.List;
+import java.util.List;
 
 import com.uditeam.UsuariosCRUD.dto.Usuario;
 
@@ -18,7 +18,7 @@ public interface UsuarioBl {
 	 * Lista todos los usuarios en el sistema
 	 * @return Lista de usuarios en el sistema
 	 */
-	Iterable<Usuario> listar();
+	List<Usuario> listar();
 	
 	/**
 	 * Obtiene la información del usuario después de autenticar el nombre de usuario

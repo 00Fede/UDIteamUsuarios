@@ -3,6 +3,12 @@
  */
 package com.uditeam.UsuariosCRUD.bl.imp;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.uditeam.UsuariosCRUD.bl.UsuarioBl;
 import com.uditeam.UsuariosCRUD.dao.UsuarioDAO;
 import com.uditeam.UsuariosCRUD.dto.Usuario;
@@ -12,16 +18,23 @@ import com.uditeam.UsuariosCRUD.dto.Usuario;
  * @author Administrator
  *
  */
+@Service	
 public class UsuarioBlImp implements UsuarioBl {
-
-	UsuarioDAO userDao;
+	
+	@Autowired
+	private UsuarioDAO userDao;
 	
 	/* (non-Javadoc)
 	 * @see com.uditeam.UsuariosCRUD.bl.UsuarioBl#listar()
 	 */
 	@Override
-	public Iterable<Usuario> listar() {
-		Iterable<Usuario> usuarios = userDao.findAll();
+	public List<Usuario> listar() {
+		
+		List<Usuario> usuarios = new ArrayList<>();
+		
+		userDao.findAll()
+		.forEach(usuarios::add);
+		
 		return usuarios;
 	}
 
@@ -31,7 +44,8 @@ public class UsuarioBlImp implements UsuarioBl {
 	@Override
 	public Usuario getUsuarioByCredentials(String username, String password) {
 		// TODO Auto-generated method stub
-		return null;
+		Usuario u = userDao.findByUsuarioAndContrasena(username, password);
+		return u;
 	}
 
 	/* (non-Javadoc)
@@ -40,7 +54,7 @@ public class UsuarioBlImp implements UsuarioBl {
 	@Override
 	public Usuario saveUsuario(Usuario u) {
 		// TODO Auto-generated method stub
-		return null;
+		return userDao.save(u);
 	}
 
 	/* (non-Javadoc)
