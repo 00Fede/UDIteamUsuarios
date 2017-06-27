@@ -6,9 +6,9 @@ package com.uditeam.UsuariosCRUD.dao;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.uditeam.UsuariosCRUD.dto.Usuario;
+import com.uditeam.UsuariosCRUD.exception.DaoException;
 /**
  * Esta interfaz contiene los metodos necesarios para manipular la base de datos
  * @author Administrator
@@ -22,5 +22,5 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Integer> {
 	 * @param contrasena
 	 * @return
 	 */
-	Usuario findByUsuarioAndContrasena(String usuario, String contrasena);
+	Usuario findByUsuarioAndContrasena(String usuario, String contrasena) throws DaoException;
 }

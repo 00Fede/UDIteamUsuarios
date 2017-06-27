@@ -2,7 +2,6 @@ package com.uditeam.UsuariosCRUD.dao;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
 
 
 import org.junit.Test;
@@ -13,7 +12,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uditeam.UsuariosCRUD.dto.Usuario;
+import com.uditeam.UsuariosCRUD.exception.DaoException;
 
+/**
+ * Pruebas Unitarias a la clase DAO
+ * @author Administrator
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 // Anotacion para pruebas en Spring Boot https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
 @SpringBootTest
@@ -24,6 +29,7 @@ public class UsuarioDAOTest {
 	UsuarioDAO usuarioDAO;
 	
 	/**
+	 * Criterio de aceptacion: La aplicación debe filtrar los datos de mi producto para encontrarlos facilmente
 	 * @param usuario
 	 * @param contrasena
 	 * @return
@@ -34,12 +40,14 @@ public class UsuarioDAOTest {
 		try{
 			Usuario u = usuarioDAO.findByUsuarioAndContrasena("user", "password");
 			assertTrue(u!=null);
-		}catch (Exception e){
+		}catch (DaoException e){
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
-	
+	/**
+	 * Criterio de aceptacion: actualizar algun dato de un usuario y eliminar (logico) de un usuario
+	 */
 	@Test
 	@Transactional
 	public void testUpdateUsuario(){
@@ -55,38 +63,30 @@ public class UsuarioDAOTest {
 	}
 	
 	
-
+	/**
+	 * Criterio de aceptacion: Ingresar un nuevo usuario
+	 */
 	@Test
 	public void testSaveS() {
 		Usuario u = new Usuario();
 		
-		u.setNombre("Juan");
-		u.setApellido("Alfredo");
-		u.setUsuario("jualf");
+		u.setNombre("Gonzalo");
+		u.setApellido("Zafra");
+		u.setUsuario("gal");
 		u.setContrasena("pass");
 		u.setEstado("activo");
 		u.setEmail("email@email.com");
 		
-		u.setId(2);
+		u.setId(3);
 		try{
 			usuarioDAO.save(u);
-			assertTrue(usuarioDAO.exists(1));
+			assertTrue("Usuario guardado exitosamente",usuarioDAO.exists(1));
 		}catch(Exception e){
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
-
-	@Test
-	public void testFindOne() {
-		try{
-			assertTrue("Completado", usuarioDAO.findOne(1)!=null);
-		}catch(Exception e){
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-
+	
 	@Test
 	public void testFindAll() {
 		try{

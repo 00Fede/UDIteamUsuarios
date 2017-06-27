@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uditeam.UsuariosCRUD.bl.UsuarioBl;
 import com.uditeam.UsuariosCRUD.dto.Usuario;
+import com.uditeam.UsuariosCRUD.exception.DaoException;
 
 /**
  * Esta clase expone los servicios que seran consumidos a traves de REST
@@ -23,7 +24,12 @@ public class ServiciosUsuario {
 	
 	@RequestMapping("/usuarios")
 	public List<Usuario> getAllUsuarios(){
-		return userBl.listar();
+		try {
+			return userBl.listar();
+		} catch (DaoException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	

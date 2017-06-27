@@ -4,6 +4,8 @@
 package com.uditeam.UsuariosCRUD.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,7 +25,7 @@ public class Usuario {
 	
 	
 	public Usuario(int id, String nombre, String apellido, String usuario, String contrasena, String email,
-			String estado) {
+			String estado, String telefono) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -32,6 +34,28 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.email = email;
 		this.estado = estado;
+		this.telefono = telefono;
+	}
+	
+	
+
+
+	/**
+	 * @param nombre
+	 * @param apellido
+	 * @param usuario
+	 * @param contrasena
+	 * @param email
+	 * @param telefono
+	 */
+	public Usuario(String nombre, String apellido, String usuario, String contrasena, String email, String telefono) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.usuario = usuario;
+		this.contrasena = contrasena;
+		this.email = email;
+		this.telefono = telefono;
 	}
 
 
@@ -119,7 +143,22 @@ public class Usuario {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	/**
+	 * @return the telefono
+	 */
+	public String getTelefono() {
+		return telefono;
+	}
+
+
+	/**
+	 * @param telefono the telefono to set
+	 */
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 	@NotNull
 	String nombre;
@@ -133,4 +172,5 @@ public class Usuario {
 	String email;
 	@NotNull
 	String estado;
+	String telefono;
 }
