@@ -35,7 +35,7 @@ public interface UsuarioBl {
 	 * @param u Usuario a ser guardado
 	 * @return Usuario guardado
 	 */
-	Usuario saveUsuario(Usuario u) throws DaoException;
+	void saveUsuario(Usuario u) throws DaoException;
 	
 	/**
 	 *  Elimina usuario (borrado lógico) por id
@@ -43,11 +43,20 @@ public interface UsuarioBl {
 	 */
 	void deleteUsuario(Integer id) throws DaoException;
 	
+
 	/**
 	 * Actualiza un usuario del sistema
-	 * @param u usuario del sistema
-	 * @return Usuario actualizado
+	 * @param username Nombre de usuario antiguo
+	 * @param name
+	 * @param apellido
+	 * @param newUsername
+	 * @param pass
+	 * @param telefono
+	 * @param correo
+	 * @param estado
+	 * @return
 	 */
-	Usuario updateUsuario(Usuario u) throws DaoException;
+	Usuario updateUsuario(String username, String name, String apellido, String newUsername, String pass,
+			String telefono, String correo, String estado) throws DaoException;
 	
 }

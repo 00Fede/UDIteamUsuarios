@@ -23,4 +23,11 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Integer> {
 	 * @return
 	 */
 	Usuario findByUsuarioAndContrasena(String usuario, String contrasena) throws DaoException;
+	
+	/**
+	 * Encuentra un usuario por nombre de usuario
+	 * @param usuario Nombre de usuario
+	 * @return
+	 */
+	Usuario findByUsuario(String usuario) throws DaoException;
 }

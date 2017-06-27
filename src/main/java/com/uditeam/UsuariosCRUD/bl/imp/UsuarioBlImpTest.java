@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.uditeam.UsuariosCRUD.bl.UsuarioBl;
 import com.uditeam.UsuariosCRUD.dao.UsuarioDAO;
@@ -38,13 +39,15 @@ public class UsuarioBlImpTest {
 			fail(e.getMessage());
 		}
 	}
-
+	
+	@Transactional
 	@Test
 	public void testSaveUsuario() {
 		//el id es incremental, y el estado se crea automatico
-		Usuario u = new Usuario("jua a","dearco","jualf","123","mail@mail.com","3234");
+		Usuario u = new Usuario("sdfjsdlfjla","dearco","juatdflf","123","mail@mail.com","3234");
 		try{
-			assertTrue("Usuario guardado correctamente",userBl.saveUsuario(u)!=null);
+			userBl.saveUsuario(u);
+			assertTrue("Usuario guardado correctamente",userDao.findByUsuarioAndContrasena(u.getUsuario(),u.getContrasena())!=null);
 		}catch(DaoException e){
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -69,7 +72,14 @@ public class UsuarioBlImpTest {
 		Usuario u = userDao.findOne(2);
 		u.setTelefono("31243242");
 		try{
-			assertTrue("Usuario actualizado correctamente",userBl.updateUsuario(u)!=null);
+			assertTrue("Usuario no pudo actualizarse",userBl.updateUsuario(u.getUsuario(),
+					null,
+					null,
+					null,
+					null,
+					"432423423",
+					null,
+					null)!=null);
 		}catch(DaoException e){
 			e.printStackTrace();
 			fail(e.getMessage());

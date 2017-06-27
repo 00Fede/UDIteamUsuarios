@@ -69,7 +69,7 @@ public class UsuarioBlImp implements UsuarioBl {
 	 * @return Usuario guardado en el sistema
 	 */
 	@Override
-	public Usuario saveUsuario(Usuario u) throws DaoException{
+	public void saveUsuario(Usuario u) throws DaoException{
 		String nombre = u.getNombre();
 		if(nombre == null || "".equals(nombre.trim())) throw new DaoException("Debe ingresar nombre");
 		String apellido = u.getApellido();
@@ -90,7 +90,7 @@ public class UsuarioBlImp implements UsuarioBl {
 		Cifrar c = new Cifrar();
 		u.setContrasena(c.encrypt(password));
 		
-		return userDao.save(u);
+		userDao.save(u);
 	}
 	
 	/**
@@ -121,9 +121,11 @@ public class UsuarioBlImp implements UsuarioBl {
 		
 		if(delUser == null) throw new DaoException("No existe el usuario a eliminar");
 		String estado = delUser.getEstado();
-		if(estado=="inactivo") throw new DaoException("El usuario ya fue borrado");
+		if(estado.equals("inactivo")) throw new DaoException("El usuario ya fue borrado");
 		
 		delUser.setEstado("inactivo");
+		
+		userDao.save(delUser);
 	}
 
 	/** 
@@ -131,25 +133,37 @@ public class UsuarioBlImp implements UsuarioBl {
 	 * @param u usuario con la nueva informacion
 	 * @return usuario modificado
 	 */
+
 	@Override
-	public Usuario updateUsuario(Usuario u) throws DaoException{
-		String nombre = u.getNombre();
-		if(nombre == null || "".equals(nombre.trim())) throw new DaoException("Debe ingresar nombre");
-		String apellido = u.getApellido();
-		if(apellido== null || "".equals(apellido.trim())) throw new DaoException("Debe ingresar apellido");
-		String username = u.getUsuario();
-		if(username == null || "".equals(username.trim())) throw new DaoException("Debe ingresar nombre de usuario");
-		String password = u.getContrasena();
-		if(password == null || "".equals(password.trim())) throw new DaoException("Debe ingresar contrasena");
-		String telefono = u.getTelefono();
-		if(telefono == null || "".equals(telefono.trim())) throw new DaoException("Debe ingresar telefono");
-		if(!Validaciones.isNumber(telefono)) throw new DaoException("El telefono no es valido");
-		String correo = u.getEmail();
-		if(!Validaciones.isEmail(correo)) throw new DaoException("El correo electronico no es valido");
-		if(u.getEstado()!="activo") throw new DaoException("El usuario no esta activo");
+	public Usuario updateUsuario(String username, String name, String apellido, String newUsername, String pass,
+			String telefono, String correo, String estado) throws DaoException {
+		if(!existeUsername(username)) throw new DaoException("No se encuentra Usuario con username " + username);
 		
-		Usuario oldUser = userDao.save(u);
-		return oldUser;
+		Usuario newUser = userDao.findByUsuario(username);
+		
+		if(estado!=null) newUser.setEstado(estado);
+		if(name!=null) newUser.setNombre(name);
+		if(apellido!=null) newUser.setApellido(apellido);
+		if(newUsername!=null){
+			if(existeUsername(newUsername)) throw new DaoException("Nombre de usuario " + newUsername + " ya existe");
+			newUser.setUsuario(newUsername);
+		}
+		if(pass!=null){
+			Cifrar c = new Cifrar();
+			newUser.setContrasena(c.encrypt(pass));
+		}
+		if(correo!=null){
+			if(!Validaciones.isEmail(correo)) throw new DaoException("El correo electrónico no tiene un formato valido");
+			newUser.setEmail(correo);
+		}
+		if(telefono!=null){
+			if(!Validaciones.isNumber(telefono)) throw new DaoException("El telefono solo puede contener numeros");
+			newUser.setTelefono(telefono);
+		}
+		
+		//Despues de hacer todas las validacion, se procede a actualizar el registro
+				
+		return userDao.save(newUser);
 	}
 
 }
