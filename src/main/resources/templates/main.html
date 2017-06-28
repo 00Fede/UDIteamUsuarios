@@ -1,0 +1,44 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Usuarios CRUD</title>
+</head>
+<body>
+	<!-- seccion para obtener usuario por credenciales -->
+	<div >
+		<input type="text" value="null" th:value="${userValue}" required placeholder="Nombre de usuario">
+		<input type="password" value="" th:value="${passValue}" required placeholder="Contrasena">
+		<!-- <input type="submit" value="Buscar" th:href="@{/creds/${username}/${password}}"> -->
+		<a th:href="@{/creds/{${userValue}}/{${passValue}}}" type="submit">Buscar</a>
+	</div>
+	
+	<!-- seccion guardar usuario 
+	En accion se llama /form -->
+	
+	
+	
+	<form th:action="@{/(form)}" th:object="${usuario}" method="post">
+		<input type="hidden" th:field="*{id}"
+			th:class="${#fields.hasErrors('id')} ? 'field-error'" />
+			<label for="nombre">Nombre</label>
+			<input type="text" th:field="*{nombre}">
+			<label for="apellido">Apellido</label>
+			<input type="text" th:field="*{apellido}">
+			<label for="email">Correo</label>
+			<input type="text" th:field="*{email}">
+			<label for="username">Nombre de usuario</label>
+			<input type="text" th:field="*{usuario}">
+			<label for="contrasena">Contrasena</label>
+			<input type="text" th:field="*{contrasena}">
+			<label for="telefono">Telefono</label>
+			<input type="number" th:field="*{telefono}">
+			<input type="hidden" th:field="*{estado}">
+			
+			<input type="submit" value="Save"> 
+	</form>
+	
+	
+</body>
+</html>

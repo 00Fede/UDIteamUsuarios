@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Usuarios : crear</title>
+</head>
+<body>
+
+	<!-- El th:action se correo despues de hacer submit al post, o al generarlo?? -->
+	<form id="messageForm" th:action="@{/(form)}" th:object="${nusuario}" action="#" method="post">
+				<input type="hidden" th:field="*{id}"/>
+				<label for="nombre">Nombre</label>
+				<input type="text" th:field="*{nombre}">
+				<label for="apellido">Apellido</label>
+				<input type="text" th:field="*{apellido}">
+				<label for="email">Correo</label>
+				<input type="text" th:field="*{email}">
+				<label for="username">Nombre de usuario</label>
+				<input type="text" th:field="*{usuario}">
+				<label for="contrasena">Contrasena</label>
+				<input type="text" th:field="*{contrasena}">
+				<label for="telefono">Telefono</label>
+				<input type="number" th:field="*{telefono}">
+				<input type="hidden" th:field="*{estado}">
+			<div class="form-actions">
+				<input type="submit" value="Save" />
+			</div>
+		</form>
+
+</body>
+</html>
