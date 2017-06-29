@@ -72,7 +72,7 @@ public class UsuarioBlImpTest {
 		Usuario u = userDao.findOne(2);
 		u.setTelefono("31243242");
 		try{
-			assertTrue("Usuario no pudo actualizarse",userBl.updateUsuario(u.getUsername(),
+			assertTrue("Usuario no pudo actualizarse",userBl.updateUsuario(u.getId(),
 					null,
 					null,
 					null,

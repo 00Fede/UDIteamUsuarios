@@ -135,18 +135,18 @@ public class UsuarioBlImp implements UsuarioBl {
 	 */
 
 	@Override
-	public Usuario updateUsuario(String username, String name, String apellido, String newUsername, String pass,
+	public Usuario updateUsuario(int id, String name, String apellido, String username, String pass,
 			String telefono, String correo, String estado) throws DaoException {
-		if(!existeUsername(username)) throw new DaoException("No se encuentra Usuario con username " + username);
 		
-		Usuario newUser = userDao.findByUsername(username);
+		Usuario newUser = userDao.findOne(id);
 		
 		if(estado!=null) newUser.setEstado(estado);
 		if(name!=null) newUser.setNombre(name);
 		if(apellido!=null) newUser.setApellido(apellido);
-		if(newUsername!=null){
-			if(existeUsername(newUsername)) throw new DaoException("Nombre de username " + newUsername + " ya existe");
-			newUser.setUsername(newUsername);
+		//se valida que usuario ingresado sea !=null y usuario recibido sea diferente a usuario antiguo
+		if(username!=null && !username.equals(newUser.getUsername())){
+			if(existeUsername(username)) throw new DaoException("Nombre de username " + username + " ya existe");
+			newUser.setUsername(username);
 		}
 		if(pass!=null){
 			Cifrar c = new Cifrar();

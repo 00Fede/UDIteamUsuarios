@@ -19,6 +19,7 @@
 						<td>Correo</td>
 						<td>Telefono</td>
 						<td>Estado</td>
+						<td>Accion</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,6 +35,10 @@
 						<td th:text="${usuario.email}">correo</td>
 						<td th:text="${usuario.telefono}">phone</td>
 						<td th:text="${usuario.estado}">estado</td>
+						<td>
+							<a href="updateJob.html" th:href="@{'update/'+ ${usuario.id}}">Modificar</a>
+							<button type="submit" name="userId" th:value="${usuario.id}">Eliminar</button>
+						</td>
 						<td>
 						<!-- <a href="view.html" th:href="@{'/' + ${message.id}}"
 							th:text="${message.summary}"> The summary </a></td> -->

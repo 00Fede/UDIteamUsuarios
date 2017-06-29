@@ -7,28 +7,25 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uditeam.UsuariosCRUD.bl.UsuarioBl;
+import com.uditeam.UsuariosCRUD.dao.UsuarioDAO;
 import com.uditeam.UsuariosCRUD.dto.Usuario;
 import com.uditeam.UsuariosCRUD.exception.DaoException;
-
 
 /**
  * Esta clase respondera a las peticiones web realizadas desde el frontend
@@ -37,13 +34,16 @@ import com.uditeam.UsuariosCRUD.exception.DaoException;
  */
 // RestController junta Controller y ResponseBody Anotaciones
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuarios/")
 public class UsuariosController {
 	
 	Usuario u = new Usuario();
 	
 	@Autowired
 	UsuarioBl userBl;
+	
+	@Autowired
+	UsuarioDAO userDao;
 
 
 	/** Mapeo para lista, bajo la ruta usuarios/
@@ -122,6 +122,54 @@ public class UsuariosController {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Mapea a /usuarios/udpate/{id} con pathvar id para mostar el update form, se le entrega
+	 * el objeto usuario (modelo) correspondiente a id 
+	 */
+	@GetMapping("update/{id}")
+	public ModelAndView update(@PathVariable Integer id){
+		ModelAndView mav = new ModelAndView("updateForm");
+		Usuario u = userDao.findOne(id);
+		mav.addObject("usuario",u);
+		return mav;
+	}
+	
+	/**
+	 * Mapeo para actualizar usuario, toma usuario modelo de vista y actualiza, retorna en /usuarios/update/ con el
+	 * usuario correspondiente al id utilizado
+	 * @param id
+	 * @param u - recibido de vista con nueva informacion
+	 * @return
+	 * @throws RemoteException
+	 */
+	@PostMapping("update/{id}")
+	public String saveUpdate(@PathVariable Integer id,@ModelAttribute Usuario u) throws RemoteException{
+		
+		System.out.println("Entro a update/id POST method");
+		
+		try {
+			userBl.updateUsuario(id,u.getNombre(), u.getApellido(), u.getUsername(), u.getContrasena(), u.getTelefono(), u.getEmail(),u.getEstado());
+		} catch (DaoException e) {
+			throw new RemoteException(e.getMessage(),e);
+		}
+		
+		return "redirect:update/"+id;
+		
+	}
+	
+	@RequestMapping(value="/usuarios", params={"userId"})
+	public String deleteUser(final Usuario usuario, final BindingResult result, final HttpServletRequest req) throws RemoteException{
+		final int id = Integer.valueOf(req.getParameter("userId"));
+		
+		try {
+			userBl.deleteUsuario(id);
+		} catch (DaoException e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
+		
+		return "sin terminar";		
 	}
 	
 //	

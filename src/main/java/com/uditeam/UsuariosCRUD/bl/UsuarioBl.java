@@ -46,17 +46,17 @@ public interface UsuarioBl {
 
 	/**
 	 * Actualiza un username del sistema
-	 * @param username Nombre de username antiguo
+	 * @param id - id unico del usuario
 	 * @param name
 	 * @param apellido
-	 * @param newUsername
+	 * @param username
 	 * @param pass
 	 * @param telefono
 	 * @param correo
 	 * @param estado
 	 * @return
 	 */
-	Usuario updateUsuario(String username, String name, String apellido, String newUsername, String pass,
+	Usuario updateUsuario(int id, String name, String apellido, String username, String pass,
 			String telefono, String correo, String estado) throws DaoException;
 	
 }
