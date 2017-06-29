@@ -7,7 +7,7 @@
 <body>
 
 	<!-- El th:action se correo despues de hacer submit al post, o al generarlo?? -->
-	<form id="messageForm" th:action="@{new}" th:object="${usuario}" action="#" method="post">
+	<form id="messageForm" th:action="@{/usuarios}" th:object="${usuario}" action="#" method="post">
 				<input type="hidden" th:field="*{id}"/>
 				<label for="nombre">Nombre</label>
 				<input type="text" th:field="*{nombre}">

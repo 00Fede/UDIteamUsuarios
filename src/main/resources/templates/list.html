@@ -5,46 +5,57 @@
 <title>Usuarios : Listar</title>
 </head>
 <body>
-		<div class="pull-right">
-			<a href="form.html" th:href="@{add}">Create Message</a>
-		</div>
-	<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<td>ID</td>
-						<td>Nombre</td>
-						<td>Apellido</td>
-						<td>Username</td>
-						<td>Contraseña</td>
-						<td>Correo</td>
-						<td>Telefono</td>
-						<td>Estado</td>
-						<td>Accion</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:if="${usuarios.empty}">
-						<td colspan="3">No Usuarios</td>
-					</tr>
-					<tr th:each="usuario : ${usuarios}">
-						<td th:text="${usuario.id}">1</td>
-						<td th:text="${usuario.nombre}">Nombre</td>
-						<td th:text="${usuario.apellido}">Apellido</td>
-						<td th:text="${usuario.username}">Nombre de usuario</td>
-						<td th:text="${usuario.contrasena}">pass</td>
-						<td th:text="${usuario.email}">correo</td>
-						<td th:text="${usuario.telefono}">phone</td>
-						<td th:text="${usuario.estado}">estado</td>
-						<td>
-							<a href="updateJob.html" th:href="@{'update/'+ ${usuario.id}}">Modificar</a>
-							<button type="submit" name="userId" th:value="${usuario.id}">Eliminar</button>
-						</td>
-						<td>
+	<div class="pull-right">
+		<a href="form.html" th:href="@{/usuarios/add}">Create Message</a>
+	</div>
+	
+	<form th:object="${usuario}" th:action="@{/usuarios}" method="get">
+		<input type="text" th:field="*{username}" placeholder="Ingrese usuario"/>
+		<input type="password" th:field="*{contrasena}" placeholder="Contraseña"/>
+		<button type="submit">Buscar</button>
+			
+	</form>
+	
+	<!-- Form necesario para poder enviar el delete -->
+	<form th:action="@{/usuarios}" th:method="delete">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>Nombre</td>
+					<td>Apellido</td>
+					<td>Username</td>
+					<td>Contraseña</td>
+					<td>Correo</td>
+					<td>Telefono</td>
+					<td>Estado</td>
+					<td>Accion</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${usuarios.empty}">
+					<td colspan="3">No Usuarios</td>
+				</tr>
+				<tr th:each="usuario : ${usuarios}">
+					<td th:text="${usuario.id}">1</td>
+					<td th:text="${usuario.nombre}">Nombre</td>
+					<td th:text="${usuario.apellido}">Apellido</td>
+					<td th:text="${usuario.username}">Nombre de usuario</td>
+					<td th:text="${usuario.contrasena}">pass</td>
+					<td th:text="${usuario.email}">correo</td>
+					<td th:text="${usuario.telefono}">phone</td>
+					<td th:text="${usuario.estado}">estado</td>
+					<td><a href="updateForm.html"
+						th:href="@{'update/'+ ${usuario.id}}">Modificar</a> <!-- Usando queryParam <a href="list.html" th:href="@{'delete/?userId='+${usuario.id}}">Eliminar</a> -->
+						<button type="submit" name="userId" th:value="${usuario.id}">Eliminar</button>
+					</td>
+					<td>
 						<!-- <a href="view.html" th:href="@{'/' + ${message.id}}"
 							th:text="${message.summary}"> The summary </a></td> -->
-					</tr>
-				</tbody>
-			</table>
+				</tr>
+			</tbody>
+		</table>
+	</form>
 
 </body>
 </html>

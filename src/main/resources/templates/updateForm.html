@@ -7,7 +7,7 @@
 <body>
 
 	<!-- El th:action se correo despues de hacer submit al post, o al generarlo?? -->
-	<form id="udpateForm" th:action="@{'/usuarios/update/'+${usuario.id}}" th:object="${usuario}" action="#" th:method="post">
+	<form id="udpateForm" th:action="@{/usuarios}" th:object="${usuario}" action="#" th:method="post">
 				<input type="hidden" th:value="${usuario.id}" th:field="*{id}"/>
 				<label for="nombre">Nombre</label>
 				<input type="text" th:value="${usuario.nombre}" th:field="*{nombre}">
@@ -24,7 +24,7 @@
 				<label for="estado">Estado</label>
 				<input type="text" th:field="*{estado}" th:value="${usuario.estado}">
 			<div class="form-actions">
-				<button type="submit">Update</button>
+				<button type="submit" name="update">Update</button>
 			</div>
 		</form>
 
