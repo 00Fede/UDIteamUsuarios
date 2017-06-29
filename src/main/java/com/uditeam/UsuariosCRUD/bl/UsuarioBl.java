@@ -22,31 +22,31 @@ public interface UsuarioBl {
 	List<Usuario> listar() throws DaoException;
 	
 	/**
-	 * Obtiene la información del usuario después de autenticar el nombre de usuario
+	 * Obtiene la información del username después de autenticar el nombre de username
 	 * y la contrasena ingresada
-	 * @param username username del usuario
-	 * @param password contrasena del usuario
+	 * @param username username del username
+	 * @param password contrasena del username
 	 * @return Usuario y toda su información obtenida
 	 */
 	Usuario getUsuarioByCredentials(String username, String password) throws DaoException;
 	
 	/**
-	 * Guarda un usuario u en el sistema
+	 * Guarda un username u en el sistema
 	 * @param u Usuario a ser guardado
 	 * @return Usuario guardado
 	 */
 	void saveUsuario(Usuario u) throws DaoException;
 	
 	/**
-	 *  Elimina usuario (borrado lógico) por id
-	 * @param id id de usuario a eliminar
+	 *  Elimina username (borrado lógico) por id
+	 * @param id id de username a eliminar
 	 */
 	void deleteUsuario(Integer id) throws DaoException;
 	
 
 	/**
-	 * Actualiza un usuario del sistema
-	 * @param username Nombre de usuario antiguo
+	 * Actualiza un username del sistema
+	 * @param username Nombre de username antiguo
 	 * @param name
 	 * @param apellido
 	 * @param newUsername

@@ -33,7 +33,7 @@ public class UsuarioBlImpTest {
 		try{
 			Usuario u = userBl.getUsuarioByCredentials(user, pass);
 			//el mensaje es cuando no se valida la condicion
-			assertTrue("No se encontro usuario",u!=null);
+			assertTrue("No se encontro username",u!=null);
 		}catch(DaoException e){
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -47,7 +47,7 @@ public class UsuarioBlImpTest {
 		Usuario u = new Usuario("sdfjsdlfjla","dearco","juatdflf","123","mail@mail.com","3234");
 		try{
 			userBl.saveUsuario(u);
-			assertTrue("Usuario guardado correctamente",userDao.findByUsuarioAndContrasena(u.getUsuario(),u.getContrasena())!=null);
+			assertTrue("Usuario guardado correctamente",userDao.findByUsernameAndContrasena(u.getUsername(),u.getContrasena())!=null);
 		}catch(DaoException e){
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -72,7 +72,7 @@ public class UsuarioBlImpTest {
 		Usuario u = userDao.findOne(2);
 		u.setTelefono("31243242");
 		try{
-			assertTrue("Usuario no pudo actualizarse",userBl.updateUsuario(u.getUsuario(),
+			assertTrue("Usuario no pudo actualizarse",userBl.updateUsuario(u.getUsername(),
 					null,
 					null,
 					null,

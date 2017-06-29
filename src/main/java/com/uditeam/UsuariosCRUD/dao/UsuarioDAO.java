@@ -17,17 +17,17 @@ import com.uditeam.UsuariosCRUD.exception.DaoException;
 @Repository
 public interface UsuarioDAO extends CrudRepository<Usuario, Integer> {
 	/**
-	 * Busca usuario por username y contrasena
-	 * @param usuario
+	 * Busca username por username y contrasena
+	 * @param username
 	 * @param contrasena
 	 * @return
 	 */
-	Usuario findByUsuarioAndContrasena(String usuario, String contrasena) throws DaoException;
+	Usuario findByUsernameAndContrasena(String username, String contrasena) throws DaoException;
 	
 	/**
-	 * Encuentra un usuario por nombre de usuario
-	 * @param usuario Nombre de usuario
+	 * Encuentra un username por nombre de username
+	 * @param username Nombre de username
 	 * @return
 	 */
-	Usuario findByUsuario(String usuario) throws DaoException;
+	Usuario findByUsername(String usuario) throws DaoException;
 }

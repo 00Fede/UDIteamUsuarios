@@ -30,15 +30,15 @@ public class UsuarioDAOTest {
 	
 	/**
 	 * Criterio de aceptacion: La aplicación debe filtrar los datos de mi producto para encontrarlos facilmente
-	 * @param usuario
+	 * @param username
 	 * @param contrasena
 	 * @return
-	 * @see com.uditeam.UsuariosCRUD.dao.UsuarioDAO#findByUsuarioAndContrasena(java.lang.String, java.lang.String)
+	 * @see com.uditeam.UsuariosCRUD.dao.UsuarioDAO#findByUsernameAndContrasena(java.lang.String, java.lang.String)
 	 */
 	@Test
 	public void testFindByUsuarioAndContrasena() {
 		try{
-			Usuario u = usuarioDAO.findByUsuarioAndContrasena("user", "password");
+			Usuario u = usuarioDAO.findByUsernameAndContrasena("user", "password");
 			assertTrue(u!=null);
 		}catch (DaoException e){
 			e.printStackTrace();
@@ -46,7 +46,7 @@ public class UsuarioDAOTest {
 		}
 	}
 	/**
-	 * Criterio de aceptacion: actualizar algun dato de un usuario y eliminar (logico) de un usuario
+	 * Criterio de aceptacion: actualizar algun dato de un username y eliminar (logico) de un username
 	 */
 	@Test
 	@Transactional
@@ -64,7 +64,7 @@ public class UsuarioDAOTest {
 	
 	
 	/**
-	 * Criterio de aceptacion: Ingresar un nuevo usuario
+	 * Criterio de aceptacion: Ingresar un nuevo username
 	 */
 	@Test
 	public void testSaveS() {
@@ -72,7 +72,7 @@ public class UsuarioDAOTest {
 		
 		u.setNombre("Gonzalo");
 		u.setApellido("Zafra");
-		u.setUsuario("gal");
+		u.setUsername("gal");
 		u.setContrasena("pass");
 		u.setEstado("activo");
 		u.setEmail("email@email.com");

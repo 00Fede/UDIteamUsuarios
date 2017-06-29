@@ -37,7 +37,7 @@ import com.uditeam.UsuariosCRUD.exception.DaoException;
  */
 // RestController junta Controller y ResponseBody Anotaciones
 @RestController
-@RequestMapping("/")
+@RequestMapping("/usuarios")
 public class UsuariosController {
 	
 	Usuario u = new Usuario();
@@ -58,7 +58,7 @@ public class UsuariosController {
 		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("list", "usuarios", usuarios);
+		return new ModelAndView("/list", "usuarios", usuarios);
 	}
 
 	@GetMapping("prueba")
@@ -67,7 +67,7 @@ public class UsuariosController {
 		return mav;
 	}
 	
-	@GetMapping(params = "form")
+	@GetMapping("/add")
 	public ModelAndView createForm(@ModelAttribute Usuario nusuario) {
 		return new ModelAndView("form");
 	}
@@ -80,7 +80,7 @@ public class UsuariosController {
 	 * @param redirect para la redireccion
 	 * @return redireccion a usuarios/id con la informacion del nuevo usuario
 	 */
-	@PostMapping
+	@RequestMapping(value="new", params={"save"})
 	public ModelAndView save(@Valid Usuario nusuario,BindingResult result,RedirectAttributes redirect){
 		if (result.hasErrors()) { //si se generan errores va a plantilla form
 			return new ModelAndView("form", "formErrors", result.getAllErrors()); 

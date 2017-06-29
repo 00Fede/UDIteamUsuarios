@@ -6,7 +6,7 @@
 </head>
 <body>
 		<div class="pull-right">
-			<a href="form.html" th:href="@{/(form)}">Create Message</a>
+			<a href="form.html" th:href="@{add}">Create Message</a>
 		</div>
 	<table class="table table-bordered table-striped">
 				<thead>
@@ -29,7 +29,7 @@
 						<td th:text="${usuario.id}">1</td>
 						<td th:text="${usuario.nombre}">Nombre</td>
 						<td th:text="${usuario.apellido}">Apellido</td>
-						<td th:text="${usuario.usuario}">Nombre de usuario</td>
+						<td th:text="${usuario.username}">Nombre de usuario</td>
 						<td th:text="${usuario.contrasena}">pass</td>
 						<td th:text="${usuario.email}">correo</td>
 						<td th:text="${usuario.telefono}">phone</td>

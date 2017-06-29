@@ -3,6 +3,7 @@
  */
 package com.uditeam.UsuariosCRUD.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class Usuario {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.usuario = usuario;
+		this.username = usuario;
 		this.contrasena = contrasena;
 		this.email = email;
 		this.estado = estado;
@@ -43,7 +44,7 @@ public class Usuario {
 	/**
 	 * @param nombre
 	 * @param apellido
-	 * @param usuario
+	 * @param username
 	 * @param contrasena
 	 * @param email
 	 * @param telefono
@@ -52,7 +53,7 @@ public class Usuario {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.usuario = usuario;
+		this.username = usuario;
 		this.contrasena = contrasena;
 		this.email = email;
 		this.telefono = telefono;
@@ -96,16 +97,16 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 	/**
-	 * @return the usuario
+	 * @return the username
 	 */
-	public String getUsuario() {
-		return usuario;
+	public String getUsername() {
+		return username;
 	}
 	/**
-	 * @param usuario the usuario to set
+	 * @param username the username to set
 	 */
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setUsername(String usuario) {
+		this.username = usuario;
 	}
 	/**
 	 * @return the contrasena
@@ -165,7 +166,7 @@ public class Usuario {
 	@NotNull
 	String apellido;
 	@NotNull
-	String usuario;
+	String username;
 	@NotNull
 	String contrasena;
 	@NotNull

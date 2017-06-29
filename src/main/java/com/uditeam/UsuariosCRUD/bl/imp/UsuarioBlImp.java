@@ -47,25 +47,25 @@ public class UsuarioBlImp implements UsuarioBl {
 	}
 
 	/**
-	 * Obtiene un usuario por sus credenciales
-	 * @param username nombre de usuario de usuario
-	 * @param password contrasena de usuario
+	 * Obtiene un username por sus credenciales
+	 * @param username nombre de username de username
+	 * @param password contrasena de username
 	 * @return Usuario encontrado con esas credenciales, null si no lo encuentra
 	 */
 	@Override
 	public Usuario getUsuarioByCredentials(String username, String password) throws DaoException{
-		if(username == null || "".equals(username.trim())) throw new DaoException("Debe ingresar nombre de usuario");
+		if(username == null || "".equals(username.trim())) throw new DaoException("Debe ingresar nombre de username");
 		if(password == null || "".equals(password.trim())) throw new DaoException("Debe ingresar contrasena");
 		Cifrar c = new Cifrar();
 		//cifra contrasena antes de verificar identidad
 		password = c.encrypt(password); 
-		Usuario u = userDao.findByUsuarioAndContrasena(username, password);
+		Usuario u = userDao.findByUsernameAndContrasena(username, password);
 		return u;
 	}
 
 	/**
-	 * Guarda un usuario u en el sistema
-	 * @param u Informacion del nuevo usuario a guardar
+	 * Guarda un username u en el sistema
+	 * @param u Informacion del nuevo username a guardar
 	 * @return Usuario guardado en el sistema
 	 */
 	@Override
@@ -74,8 +74,8 @@ public class UsuarioBlImp implements UsuarioBl {
 		if(nombre == null || "".equals(nombre.trim())) throw new DaoException("Debe ingresar nombre");
 		String apellido = u.getApellido();
 		if(apellido== null || "".equals(apellido.trim())) throw new DaoException("Debe ingresar apellido");
-		String username = u.getUsuario();
-		if(username == null || "".equals(username.trim())) throw new DaoException("Debe ingresar nombre de usuario");
+		String username = u.getUsername();
+		if(username == null || "".equals(username.trim())) throw new DaoException("Debe ingresar nombre de username");
 		String password = u.getContrasena();
 		if(password == null || "".equals(password.trim())) throw new DaoException("Debe ingresar contrasena");
 		String telefono = u.getTelefono();
@@ -83,7 +83,7 @@ public class UsuarioBlImp implements UsuarioBl {
 		if(!Validaciones.isNumber(telefono)) throw new DaoException("El telefono no es valido");
 		String correo = u.getEmail();
 		if(!Validaciones.isEmail(correo)) throw new DaoException("El correo electronico no es valido");
-		if(existeUsername(username)) throw new DaoException("El nombre de usuario ya existe");
+		if(existeUsername(username)) throw new DaoException("El nombre de username ya existe");
 		
 		u.setEstado("activo");
 		
@@ -94,7 +94,7 @@ public class UsuarioBlImp implements UsuarioBl {
 	}
 	
 	/**
-	 * Verifica si ya existe el nombre de usuario en el sistema
+	 * Verifica si ya existe el nombre de username en el sistema
 	 * @param username a ser validado
 	 * @return true si el username ya existe, false de lo contrario
 	 */
@@ -104,24 +104,24 @@ public class UsuarioBlImp implements UsuarioBl {
 		username = username.toLowerCase();
 		while(usuarios.hasNext()){
 			Usuario u = usuarios.next();
-			//si ya existe un usuario con ese username, sin importar el case, retorna true
-			if(u.getUsuario().toLowerCase().equals(username)) return true;
+			//si ya existe un username con ese username, sin importar el case, retorna true
+			if(u.getUsername().toLowerCase().equals(username)) return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Elimina un usuario por id
-	 * @param id del usuario a eliminar
+	 * Elimina un username por id
+	 * @param id del username a eliminar
 	 */
 	@Override
 	public void deleteUsuario(Integer id) throws DaoException{
 		
 		Usuario delUser = userDao.findOne(id);
 		
-		if(delUser == null) throw new DaoException("No existe el usuario a eliminar");
+		if(delUser == null) throw new DaoException("No existe el username a eliminar");
 		String estado = delUser.getEstado();
-		if(estado.equals("inactivo")) throw new DaoException("El usuario ya fue borrado");
+		if(estado.equals("inactivo")) throw new DaoException("El username ya fue borrado");
 		
 		delUser.setEstado("inactivo");
 		
@@ -129,9 +129,9 @@ public class UsuarioBlImp implements UsuarioBl {
 	}
 
 	/** 
-	 * Actualiza un usuario u
-	 * @param u usuario con la nueva informacion
-	 * @return usuario modificado
+	 * Actualiza un username u
+	 * @param u username con la nueva informacion
+	 * @return username modificado
 	 */
 
 	@Override
@@ -139,14 +139,14 @@ public class UsuarioBlImp implements UsuarioBl {
 			String telefono, String correo, String estado) throws DaoException {
 		if(!existeUsername(username)) throw new DaoException("No se encuentra Usuario con username " + username);
 		
-		Usuario newUser = userDao.findByUsuario(username);
+		Usuario newUser = userDao.findByUsername(username);
 		
 		if(estado!=null) newUser.setEstado(estado);
 		if(name!=null) newUser.setNombre(name);
 		if(apellido!=null) newUser.setApellido(apellido);
 		if(newUsername!=null){
-			if(existeUsername(newUsername)) throw new DaoException("Nombre de usuario " + newUsername + " ya existe");
-			newUser.setUsuario(newUsername);
+			if(existeUsername(newUsername)) throw new DaoException("Nombre de username " + newUsername + " ya existe");
+			newUser.setUsername(newUsername);
 		}
 		if(pass!=null){
 			Cifrar c = new Cifrar();
