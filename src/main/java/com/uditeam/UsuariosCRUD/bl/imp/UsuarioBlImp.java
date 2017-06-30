@@ -40,7 +40,7 @@ public class UsuarioBlImp implements UsuarioBl {
 		
 		while(i.hasNext()){
 			Usuario u = i.next();
-			if(u.getEstado()!="inactivo") usuarios.add(u);
+			if(!u.getEstado().equals("inactivo")) usuarios.add(u);
 		}
 		
 		return usuarios;

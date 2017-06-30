@@ -4,6 +4,7 @@
 package com.uditeam.UsuariosCRUD.controller;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,14 +49,23 @@ public class UsuariosController {
 	 * @return hacia la ruta /list con todos los usuarios en modelo usuarios
 	 */
 	@GetMapping({"/","/usuarios"})
-	public ModelAndView list(){
-		List<Usuario> usuarios = null;
+	public ModelAndView list(@ModelAttribute Usuario user){
+		List<Usuario> usuarios = new ArrayList<>(); 
 		try {
 			usuarios = userBl.listar();
 		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("/list", "usuarios", usuarios);
+		
+		ModelAndView mav = new ModelAndView("/list");
+		//si no se ingresa usuario, cree un usuario vacio, necesario para form de buscar.
+		if(user==null) {
+			user = new Usuario();
+		};
+		
+		mav.addObject("usuarios",usuarios);
+		mav.addObject("usuario",user);
+		return mav;
 	}
 	
 	/**
@@ -88,6 +98,7 @@ public class UsuariosController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		redirect.addFlashAttribute("globalMessage", "Successfully created a new message"); //atributo a satisfactorio
 		return new ModelAndView("redirect:/{id}", "id", nusuario.getId()); //redirige a usuarios/{id} para mostrar nuevo usuario
 	}
@@ -102,20 +113,24 @@ public class UsuariosController {
 		return new ModelAndView("view", "usuario", usuario); //se va a plantilla view con la info del usuario
 	}
 	
-	@RequestMapping(value="/usuarios",params={"user","pass"})
-	public ModelAndView getUserInfo(@ModelAttribute Usuario nusuario){
-		
-		//Probar que las entradas no sean nulas
-		
-		final String username = nusuario.getUsername();
-		final String contrasena = nusuario.getContrasena();
+	@RequestMapping(value="/usuarios/creds")
+	public ModelAndView getUserInfo(@ModelAttribute Usuario usuario){		
+		final String username = usuario.getUsername();
+		final String contrasena = usuario.getContrasena();
 		
 		System.out.println("usuario y contraseña recibidos" + username + " " + contrasena);
+		
 		try {
 			Usuario user = userBl.getUsuarioByCredentials(username, contrasena);
 			System.out.println("Encontro usuario " + user.getNombre());
 			if(user!=null){
-				ModelAndView mav = new ModelAndView("redirect:/{id}","id",user.getId());
+				//userResult(user);
+				List<Usuario> usuarios = new ArrayList<>();
+				usuarios.add(user);
+				ModelAndView mav = new ModelAndView("list");
+				mav.addObject("usuarios",usuarios);
+				//necesario para mostrar boton de atras.
+				mav.addObject("esconsulta",true);
 				
 				return mav;
 			}
