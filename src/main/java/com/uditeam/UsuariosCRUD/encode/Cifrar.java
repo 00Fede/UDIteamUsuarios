@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Clase que ofrece utilidades para el cifrado de datos
- * @author Grupo 4
+ * @author Federico Ocampo - CC: 1039464102 - feedkiko@gmail.com
  * @version 1.0
  */
 public class Cifrar {

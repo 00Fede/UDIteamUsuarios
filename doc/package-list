@@ -1,0 +1,9 @@
+com.uditeam.UsuariosCRUD
+com.uditeam.UsuariosCRUD.bl
+com.uditeam.UsuariosCRUD.bl.imp
+com.uditeam.UsuariosCRUD.controller
+com.uditeam.UsuariosCRUD.dao
+com.uditeam.UsuariosCRUD.dto
+com.uditeam.UsuariosCRUD.encode
+com.uditeam.UsuariosCRUD.exception
+com.uditeam.UsuariosCRUD.validations

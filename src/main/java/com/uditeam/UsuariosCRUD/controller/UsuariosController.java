@@ -1,12 +1,8 @@
-/**
- * 
- */
 package com.uditeam.UsuariosCRUD.controller;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,14 +23,10 @@ import com.uditeam.UsuariosCRUD.exception.DaoException;
 
 /**
  * Esta clase respondera a las peticiones web realizadas desde el frontend
- * @author Administrator
- *
+ * @author Federico Ocampo - C.C. 1039464102 - feedkiko@gmail.com
  */
-// RestController junta Controller y ResponseBody Anotaciones
 @RestController
 public class UsuariosController {
-	
-	Usuario u = new Usuario();
 	
 	@Autowired
 	UsuarioBl userBl;
@@ -44,9 +35,11 @@ public class UsuariosController {
 	UsuarioDAO userDao;
 
 
-	/** Mapeo para lista, bajo la ruta base/usuarios o base/
-	 * 
-	 * @return hacia la ruta /list con todos los usuarios en modelo usuarios
+	/** 
+	 * Mapeo para listar todos los usuarios, muestra la pagina principal
+	 * template a usar es list.html
+	 * @param user Usuario que se rellenara en la vista
+	 * @return muestra list.html con todos los usuarios en modelo usuarios
 	 */
 	@GetMapping({"/","/usuarios"})
 	public ModelAndView list(@ModelAttribute Usuario user){
@@ -69,25 +62,26 @@ public class UsuariosController {
 	}
 	
 	/**
-	 * Devuelve en la vista el formulario para crear usuario.
-	 * @param nusuario
+	 * Devuelve en la vista el formulario (form.html) para crear usuario.
+	 * @param usuario - obj usuario vacio donde se inyectara info del usuario
 	 * @return
 	 */
 	@GetMapping("/usuarios/add")
-	public ModelAndView createForm(@ModelAttribute Usuario nusuario) {
-		return new ModelAndView("form");
+	public ModelAndView createForm(@ModelAttribute Usuario usuario) {
+		return new ModelAndView("/form");
 	}
 	
 	/**
 	 * Mapeo para guardar un usuario bajo ruta /usuarios
 	 * Por ser el unico post, elboton submit de la vista dirige a este link
-	 * @param usuario usuario que va a ser guardado
+	 * @param nusuario usuario que va a ser guardado
 	 * @param result Resultado del proceso de binding entre la vista y el modelo usuario
 	 * @param redirect para la redireccion
 	 * @return redireccion a usuarios/id con la informacion del nuevo usuario
+	 * @throws RemoteException Lanza una excepción al cliente con el mensaje de DaoException
 	 */
 	@RequestMapping(value="/usuarios", params={"save"})
-	public ModelAndView save(@Valid Usuario nusuario,BindingResult result,RedirectAttributes redirect){
+	public ModelAndView save(@Valid Usuario nusuario,BindingResult result,RedirectAttributes redirect) throws RemoteException{
 		if (result.hasErrors()) { //si se generan errores va a plantilla form
 			return new ModelAndView("form", "formErrors", result.getAllErrors()); 
 		}
@@ -95,22 +89,10 @@ public class UsuariosController {
 		try { //guarda el usuario
 			userBl.saveUsuario(nusuario);
 		} catch (DaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RemoteException(e.getMessage(), e);
 		}
-	
-		redirect.addFlashAttribute("globalMessage", "Successfully created a new message"); //atributo a satisfactorio
-		return new ModelAndView("redirect:/{id}", "id", nusuario.getId()); //redirige a usuarios/{id} para mostrar nuevo usuario
-	}
-	
-	/**
-	 * Mapea en plantilla view modelo u	suario
-	 * @param usuario
-	 * @return plantilla view con el modelo usuario
-	 */
-	@GetMapping("{id}")
-	public ModelAndView view(@PathVariable("id") Usuario usuario) {
-		return new ModelAndView("view", "usuario", usuario); //se va a plantilla view con la info del usuario
+		redirect.addFlashAttribute("globalMessage", "Usuario agregado exitosamente"); //atributo a satisfactorio
+		return new ModelAndView("redirect:/"); //redirige a usuarios/{id} para mostrar nuevo usuario
 	}
 	
 	@RequestMapping(value="/usuarios/creds")
@@ -122,17 +104,19 @@ public class UsuariosController {
 		
 		try {
 			Usuario user = userBl.getUsuarioByCredentials(username, contrasena);
-			System.out.println("Encontro usuario " + user.getNombre());
 			if(user!=null){
 				//userResult(user);
+				System.out.println("Encontro usuario " + user.getNombre());
 				List<Usuario> usuarios = new ArrayList<>();
 				usuarios.add(user);
-				ModelAndView mav = new ModelAndView("list");
+				ModelAndView mav = new ModelAndView("/list");
 				mav.addObject("usuarios",usuarios);
 				//necesario para mostrar boton de atras.
 				mav.addObject("esconsulta",true);
 				
 				return mav;
+			}else{
+				return new ModelAndView("No se encontro usuario");
 			}
 		} catch (DaoException e) {
 			e.printStackTrace();
@@ -144,6 +128,7 @@ public class UsuariosController {
 	/**
 	 * Mapea a /usuarios/udpate/{id} con pathvar id para mostar el update form, se le entrega
 	 * el objeto usuario (modelo) correspondiente a id 
+	 * @return id id de usuario que se va actualizar, con este id se obtiene la informacion del usuario
 	 */
 	@GetMapping("update/{id}")
 	public ModelAndView update(@PathVariable Integer id){
@@ -155,13 +140,13 @@ public class UsuariosController {
 	
 	/**
 	 * Mapeo para actualizar usuario, toma usuario modelo de vista y actualiza, retorna en /usuarios
-	 * @param id
 	 * @param u - recibido de vista con nueva informacion
-	 * @return
+	 * @param redirect contiene atributos para la redireccion a la vista
+	 * @return Vista y Modelo para /
 	 * @throws RemoteException
 	 */
 	@RequestMapping(value = "/usuarios", params={"update"})
-	public ModelAndView saveUpdate(@ModelAttribute Usuario u) throws RemoteException{
+	public ModelAndView saveUpdate(@ModelAttribute Usuario u, RedirectAttributes redirect) throws RemoteException{
 		
 		System.out.println("Entro a update/id POST method");
 		
@@ -170,19 +155,20 @@ public class UsuariosController {
 		} catch (DaoException e) {
 			throw new RemoteException(e.getMessage(),e);
 		}
-		
-		return new ModelAndView("redirect:/{id}", "id", u.getId()); //redirige a usuarios/{id} para mostrar nuevo usuario;
+		redirect.addFlashAttribute("globalMessage", "Usuario actualizado exitosamente");
+		return new ModelAndView("redirect:/"); //redirige a usuarios/{id} para mostrar nuevo usuario;
 		
 	}
 	
 	/**
 	 * Funcionalidad bajo /usuarios?userId=id para eliminar usuario
-	 * @param req
-	 * @return
+	 * @param req de este parametro se obtiene información del request
+	 * @param redirect contiene atributos para la redireccion a la vista
+	 * @return Modelo y Vista para /
 	 * @throws RemoteException
 	 */
 	@RequestMapping(value="/usuarios", params={"userId"})
-	public ModelAndView deleteUser(final HttpServletRequest req) throws RemoteException{
+	public ModelAndView deleteUser(final HttpServletRequest req, RedirectAttributes redirect) throws RemoteException{
 		final int id = Integer.valueOf(req.getParameter("userId"));
 		
 		System.out.println("Method delete id usuario para eliminar " + id);
@@ -192,115 +178,14 @@ public class UsuariosController {
 		} catch (DaoException e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
-		
+		redirect.addFlashAttribute("globalMessage", "El usuario se ha eliminado correctamente");
 		return new ModelAndView("redirect:/");		
 	}
 
 	
 }
 
-///**
-////
-/////**
-//// * Servicio para listar todos los usuarios del sistema
-//// * Se consume bajo localhost/usuarios
-//// * @return
-//// * @throws RemoteException
-//// */
-////@RequestMapping(method=RequestMethod.GET,produces="application/json")
-////public List<Usuario> listarTodos() throws RemoteException{
-////	try{
-////		return userBl.listar();
-////	}catch(DaoException e){
-////		throw new RemoteException(e.getMessage(), e);
-////	}
-////}
-////
-///**
-// * Este metodo recibe una peticion post para guardar un usuario user
-// * @param user Usuario a ser guardado
-// * @return Usuario guardado
-// * @throws RemoteException 
-// */
-////@RequestMapping(value = "/add", method=RequestMethod.POST, produces =MediaType.TEXT_HTML)
-////public String addUser(@RequestBody Usuario user) throws RemoteException{
-////	
-////	try{
-////		userBl.saveUsuario(user);
-////		if(user!=null){
-////			return "Usuario " + user.getNombre() +" guardado exitosamente.";
-////		}else{
-////			return "El usuario no pudo ser registrado";
-////		}
-////	}catch (DaoException e) {
-////		throw new RemoteException(e.getMessage(),e);
-////	}
-////	
-////}
-///**
-// * Este metodo recibe una peticion GET para obtener un usuario dado el nombre de 
-// * usuario y contrasena
-// * @param username - criterio de busqueda
-// * @param pass - criterio de busqueda
-// * @return Usuario encontrado o null si no lo encuentra
-// * @throws RemoteException
-// */
-////@RequestMapping(value="/creds/{username}/{password}", method=RequestMethod.GET, produces="application/json")
-////public Usuario getUsuarioByCreds(
-////		@PathVariable String username,
-////		@PathVariable String password) 
-////				throws RemoteException{
-////	try {
-////		Usuario u = userBl.getUsuarioByCredentials(username, password);
-////		if(u!=null){
-////			return u;
-////		}else{
-////			throw new RemoteException("No se encontro el usuario");
-////		}
-////	} catch (DaoException e) {
-////		throw new RemoteException(e.getMessage(),e);
-////	}
-////}
-//
-///**
-// * Expone el servicio de actualizar un usuario.
-// * @param user - Usuario a ser actualizado
-// * @return Mensaje de confirmacion
-// * @throws RemoteException
-// */
-////@RequestMapping(value="/update/{username}", method= RequestMethod.PUT, produces=MediaType.TEXT_HTML)
-////public String updateUser(@RequestParam(value="name", required=false) String name,
-////		@RequestParam(value="apell", required=false) String apellido,
-////		@PathVariable String username,
-////		@RequestParam(value="newusername", required=false) String newUsername,
-////		@RequestParam(value="pass", required=false) String pass,
-////		@RequestParam(value="telefono", required=false) String telefono,
-////		@RequestParam(value="correo", required=false) String correo,
-////		@RequestParam(value="estado", required=false) String estado) throws RemoteException{
-////	try {
-////		Usuario u = userBl.updateUsuario(username,name,apellido,newUsername,pass,telefono,correo,estado);
-////		if(u!=null){
-////			return "Usuario " + u.getUsuario() + " actualizado correctamente";
-////		}else{
-////			return "Ocurrio un error actualizando usuario";
-////		}
-////	} catch (DaoException e) {
-////		throw new RemoteException(e.getMessage(),e);
-////	}
-////}
-//
-///**
-// * Expone servicio para eliminar (logico) usuario por id
-// * @param id - id de usuario a eliminar
-// * @return Mensaje de confirmacion
-// * @throws RemoteException
-// */
-////@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE, produces=MediaType.TEXT_HTML)
-////public String deleteUser(@PathVariable int id) throws RemoteException{
-////	try {
-////		userBl.deleteUsuario(id); //borrado lógico
-////		return "Usuario eliminado correctamente";
-////	} catch (DaoException e) {
-////		throw new RemoteException(e.getMessage(), e);
-////	}
-////}*/
+//@GetMapping("{id}")
+//public ModelAndView view(@PathVariable("id") Usuario usuario) {
+//	return new ModelAndView("view", "usuario", usuario); //se va a plantilla view con la info del usuario
+//}

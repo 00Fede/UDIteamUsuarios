@@ -18,8 +18,8 @@ import com.uditeam.UsuariosCRUD.exception.DaoException;
 import com.uditeam.UsuariosCRUD.validations.Validaciones;
 
 /**
- * Implementacion de la capa de negocio
- * @author Administrator
+ * Esta clase realiza la implementacion de la capa de negocio
+ * @author Federico Ocampo - CC. 1039464102 - feedkiko@gmail.com
  *
  */
 @Service	
@@ -28,8 +28,9 @@ public class UsuarioBlImp implements UsuarioBl {
 	@Autowired
 	private UsuarioDAO userDao;
 	
-	/** 
-	 * (No solicitado) Lista todos los usuarios que se encuentran activos.
+	
+	/* (non-Javadoc)
+	 * @see com.uditeam.UsuariosCRUD.bl.UsuarioBl#listar()
 	 */
 	@Override
 	public List<Usuario> listar() throws DaoException {
@@ -46,11 +47,8 @@ public class UsuarioBlImp implements UsuarioBl {
 		return usuarios;
 	}
 
-	/**
-	 * Obtiene un username por sus credenciales
-	 * @param username nombre de username de username
-	 * @param password contrasena de username
-	 * @return Usuario encontrado con esas credenciales, null si no lo encuentra
+	/* (non-Javadoc)
+	 * @see com.uditeam.UsuariosCRUD.bl.UsuarioBl#getUsuarioByCredentials(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Usuario getUsuarioByCredentials(String username, String password) throws DaoException{
@@ -63,10 +61,8 @@ public class UsuarioBlImp implements UsuarioBl {
 		return u;
 	}
 
-	/**
-	 * Guarda un username u en el sistema
-	 * @param u Informacion del nuevo username a guardar
-	 * @return Usuario guardado en el sistema
+	/* (non-Javadoc)
+	 * @see com.uditeam.UsuariosCRUD.bl.UsuarioBl#saveUsuario(com.uditeam.UsuariosCRUD.dto.Usuario)
 	 */
 	@Override
 	public void saveUsuario(Usuario u) throws DaoException{
@@ -110,9 +106,8 @@ public class UsuarioBlImp implements UsuarioBl {
 		return false;
 	}
 
-	/**
-	 * Elimina un username por id
-	 * @param id del username a eliminar
+	/* (non-Javadoc)
+	 * @see com.uditeam.UsuariosCRUD.bl.UsuarioBl#deleteUsuario(java.lang.Integer)
 	 */
 	@Override
 	public void deleteUsuario(Integer id) throws DaoException{
@@ -127,13 +122,10 @@ public class UsuarioBlImp implements UsuarioBl {
 		
 		userDao.save(delUser);
 	}
-
-	/** 
-	 * Actualiza un username u
-	 * @param u username con la nueva informacion
-	 * @return username modificado
+	
+	/* (non-Javadoc)
+	 * @see com.uditeam.UsuariosCRUD.bl.UsuarioBl#updateUsuario(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-
 	@Override
 	public Usuario updateUsuario(int id, String name, String apellido, String username, String pass,
 			String telefono, String correo, String estado) throws DaoException {

@@ -7,10 +7,14 @@ import org.apache.log4j.Logger;
 
 /**
  * Esta Clase manejara las excepciones del sistema
- * @author Administrator
- *
+ * @author Federico Ocampo - CC 1039464102 - feedkiko@gmail.com
  */
 public class DaoException extends Exception {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	Logger log = Logger.getLogger(this.getClass());
 

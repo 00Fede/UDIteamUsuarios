@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+
+.btn-transparente {
+     background:none!important;
+     color:blue;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     /*border is optional*/
+     cursor: pointer;
+}
+
+.container-form {
+	width:50%;
+	background-color: white;
+	padding: 1.5rem;
+    border: solid #f7f7f9;
+}
+
+.principal {
+	background-color:blue ;
+}

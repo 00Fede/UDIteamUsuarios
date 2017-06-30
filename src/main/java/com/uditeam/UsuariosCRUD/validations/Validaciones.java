@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * Clase para validaciones en general del sistema
- * @author Elver Su�rez Alzate
+ * @author Federico Ocampo - CC 1039464102 - feedkiko@gmail.com
  */
 public class Validaciones {
 	

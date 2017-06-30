@@ -3,7 +3,6 @@
  */
 package com.uditeam.UsuariosCRUD.dto;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Esta clase representa una entidad Usuario de la base de datos
- * @author Administrator
+ * @author Federico Ocampo - CC 1039464102 - feedkiko@gmail.com
  *
  */
 @Entity
@@ -25,6 +24,17 @@ public class Usuario {
 	}
 	
 	
+	/**
+	 * Construye un nuevo objeto usuario con todos los campos, inclusive ID
+	 * @param id
+	 * @param nombre
+	 * @param apellido
+	 * @param usuario
+	 * @param contrasena
+	 * @param email
+	 * @param estado
+	 * @param telefono
+	 */
 	public Usuario(int id, String nombre, String apellido, String usuario, String contrasena, String email,
 			String estado, String telefono) {
 		super();

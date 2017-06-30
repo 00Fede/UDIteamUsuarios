@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+<!-- <link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.css" /> -->
+	
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
 <title>Usuarios : crear</title>
 </head>
-<body>
-
+<body  class="principal">
+	
 	<!-- El th:action se correo despues de hacer submit al post, o al generarlo?? -->
-	<form id="messageForm" th:action="@{/usuarios}" th:object="${usuario}" action="#" method="post">
-				<input type="hidden" th:field="*{id}"/>
-				<label for="nombre">Nombre</label>
-				<input type="text" th:field="*{nombre}">
-				<label for="apellido">Apellido</label>
-				<input type="text" th:field="*{apellido}">
-				<label for="email">Correo</label>
-				<input type="text" th:field="*{email}">
-				<label for="username">Nombre de usuario</label>
-				<input type="text" th:field="*{username}">
-				<label for="contrasena">Contrasena</label>
-				<input type="text" th:field="*{contrasena}">
-				<label for="telefono">Telefono</label>
-				<input type="number" th:field="*{telefono}">
-				<input type="hidden" th:field="*{estado}">
+			
+	<div class="container">
+	<h2 style="color: white;">Agregar Usuario</h2>
+	<div class="container-form">
+		<form id="messageForm" th:action="@{/usuarios}" th:object="${usuario}"
+			action="#" method="post">
+			<input type="hidden" th:field="*{id}" />
+			<div class="form-group">
+				<label for="nombre">Nombre</label> <input type="text"
+					th:field="*{nombre}" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="apellido">Apellido</label> <input type="text"
+					th:field="*{apellido}" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="email">Correo</label> <input type="text"
+					th:field="*{email}" class="form-control"/>
+					<small id="emailHelp" class="form-text text-muted">No compartiremos tu correo con nadie.</small>
+			</div>
+			<div class="form-group">
+				<label for="username">Nombre de usuario</label> <input type="text"
+					th:field="*{username}" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="contrasena">Contrasena</label> <input type="password"
+					th:field="*{contrasena}" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="telefono">Telefono</label> <input type="number"
+					th:field="*{telefono}" class="form-control"/>
+			</div>
+			<input type="hidden" th:field="*{estado}">
 			<div class="form-actions">
-				<input type="submit" name="save" />
+				<input class="btn btn-lg btn-block btn-primary" type="submit" name="save" value="Guardar"/>
 			</div>
 		</form>
+	</div>
+	</div>
 
 </body>
 </html>
